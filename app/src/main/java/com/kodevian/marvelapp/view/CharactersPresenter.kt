@@ -14,12 +14,14 @@ import io.reactivex.schedulers.Schedulers
 
 
 class CharactersPresenter(internal var mView: CharacterContract.View) : CharacterContract.Presenter {
+
+
+    var subscriptions: CompositeDisposable = CompositeDisposable()
+
     override fun stop() {
         if(subscriptions.size()>0)
             subscriptions.clear()
     }
-
-    var subscriptions: CompositeDisposable = CompositeDisposable()
 
     override fun getCharacter(offset:Int, s:String) {
 
@@ -31,6 +33,9 @@ class CharactersPresenter(internal var mView: CharacterContract.View) : Characte
             val ts = (System.currentTimeMillis() / 1000).toString()
             val hash = md5("$ts$private_key$public_key")
             val options:MutableMap<String,String> = mutableMapOf()
+            options.put("apikey", public_key)
+            options.put("ts", ts)
+            options.put("hash", hash)
             options.put("offset", offset.toString())
             options.put("orderBy", MarvelRequest.OrderBy.NAME.value)
             options.put("limit", 15.toString())
@@ -38,22 +43,19 @@ class CharactersPresenter(internal var mView: CharacterContract.View) : Characte
                 options.put("nameStartsWith", s)
 
             subscriptions.add(request.getCharacters(
-                    public_key,
-                    ts,
-                    hash,
                     options
                     )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { t: BaseResponse<CharacterEntity>? ->
                         if(t?.code==200){
-                             t.data
+                            Pair(t.data,t.code)
                         }else{
-                            null
+                            Pair(null ,t?.code?:500)
                         }
                     }
                     .subscribe ({
-                        d ->
+                        (d,_) ->
                             if(d!=null){
                                 val characters: List<CharacterEntity> = d.results
                                 mView.renderCharacters(characters, d.offset + 15, s)

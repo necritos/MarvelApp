@@ -13,7 +13,7 @@ import com.kodevian.marvelapp.model.CharacterEntity
 
 
 
-class CharacterAdapter(var items: MutableList<CharacterEntity>) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
+class CharacterAdapter(var items: MutableList<CharacterEntity>, val listener: (CharacterEntity) -> Unit) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
@@ -25,6 +25,10 @@ class CharacterAdapter(var items: MutableList<CharacterEntity>) : RecyclerView.A
                     .placeholder(R.drawable.logomarvel)
                     .error(R.drawable.logomarvel)
                     .into(holder.img)
+            holder.itemView.setOnClickListener {
+                listener(items[position])
+            }
+
         }
     }
 
@@ -51,6 +55,7 @@ class CharacterAdapter(var items: MutableList<CharacterEntity>) : RecyclerView.A
 
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+
         var img: ImageView = view.findViewById(R.id.img_cover)
         var name : TextView = view.findViewById(R.id.tv_name)
     }

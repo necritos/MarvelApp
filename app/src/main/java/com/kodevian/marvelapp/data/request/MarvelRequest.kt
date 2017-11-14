@@ -17,9 +17,6 @@ interface MarvelRequest {
 
     @GET("characters")
     fun getCharacters(
-                      @Query("apikey") apikey: String,
-                      @Query("ts") ts: String,
-                      @Query("hash") hash: String,
                       @QueryMap options:Map<String,String>
                       ): Observable<BaseResponse<CharacterEntity>>
 

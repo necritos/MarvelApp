@@ -14,6 +14,7 @@ interface CharacterContract {
 
     interface Presenter {
         fun getCharacter(offset:Int =0, s:String = "")
+        // fun getCharacter() // fun getCharacter(offset) //fun getCharacter(s) // 2
         fun start()
         fun stop()
     }

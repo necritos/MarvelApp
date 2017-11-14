@@ -1,5 +1,6 @@
 package com.kodevian.marvelapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -7,8 +8,11 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
+import com.google.gson.Gson
 import com.kodevian.marvelapp.R
+import com.kodevian.marvelapp.base.BaseActivity
 import com.kodevian.marvelapp.model.CharacterEntity
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
@@ -17,7 +21,7 @@ import io.reactivex.disposables.Disposable
 
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity(), CharacterContract.View {
+class MainActivity : BaseActivity(), CharacterContract.View {
 
 
     lateinit var rvCharacters:RecyclerView
@@ -32,11 +36,17 @@ class MainActivity : AppCompatActivity(), CharacterContract.View {
         setContentView(R.layout.activity_main)
         showToolbar()
 
-        rvCharacters = findViewById(R.id.rv_characters) as RecyclerView
+        rvCharacters = findViewById<View>(R.id.rv_characters) as RecyclerView
         //val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val layoutManager = GridLayoutManager(this, 3)
         rvCharacters.layoutManager = layoutManager
-        characterAdapter = CharacterAdapter(mutableListOf())
+        characterAdapter = CharacterAdapter(mutableListOf()){
+            character ->
+                val i:Intent = Intent(this, CharacterDetailActivity::class.java)
+                var strObject: String = Gson().toJson(character)
+                i.putExtra("character", strObject)
+                startActivity(i)
+        }
         rvCharacters.adapter = characterAdapter
         characterPresenter = CharactersPresenter(this)
         characterPresenter?.start()
@@ -71,7 +81,7 @@ class MainActivity : AppCompatActivity(), CharacterContract.View {
     }
 
     private fun showToolbar() {
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         val ab = supportActionBar
         if (ab != null) {
@@ -88,7 +98,8 @@ class MainActivity : AppCompatActivity(), CharacterContract.View {
         val iSearch = menu.findItem(R.id.action_search)
         val vSearch = iSearch.actionView as SearchView
 
-        disposable = Observable.create(ObservableOnSubscribe<String> { subscriber ->
+        disposable = Observable.create(ObservableOnSubscribe<String> {
+            subscriber ->
             vSearch.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     if (!vSearch.isIconified) {
