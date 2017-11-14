@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "575774106299",
+    "firebase_url": "https://labskodeapp.firebaseio.com",
+    "project_id": "labskodeapp",
+    "storage_bucket": "labskodeapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575774106299:android:2bbd6408e5028380",
+        "android_client_info": {
+          "package_name": "com.kodevian.marvelapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575774106299-6398i7p65u0bh09c9dsj8qbvh4rcihkr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kodevian.marvelapp",
+            "certificate_hash": "fe916bbb5d3d35ea971d65a01d50ef0ce91a596c"
+          }
+        },
+        {
+          "client_id": "575774106299-nij6or0fing7tv0mqc2d1i8h1730ac6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaPPvFH2h7lOt-Pw_P4UH2bbnSUz6iAXE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575774106299-nij6or0fing7tv0mqc2d1i8h1730ac6e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

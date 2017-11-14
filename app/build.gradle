@@ -3,17 +3,30 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.kodevian.marvelapp"
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-        setProperty("archivesBaseName", "MarvelApp-v$versionName-c$versionCode")
+        setProperty("archivesBaseName", "MarvelApp-v$versionName")
         buildConfigField 'String', 'BASE', '"http://gateway.marvel.com/v1/public/"'
         buildConfigField 'String', 'PUBLIC_KEY', '"f4df5bff8d2920b48101e6aeea93399f"'
         buildConfigField 'String', 'PRIVATE_KEY', '"8fdddf8b42d5a2ab3c858b12bde9e2f768decc86"'
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/MarvelApp-v1.0_debug.kotlin_module'
+        exclude '.readme'
     }
     buildTypes {
         release {
@@ -27,16 +40,16 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     //suport
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:support-v4:26.1.0'
 
     //Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //design
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
     //rx
@@ -45,13 +58,20 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxkotlin:2.0.0-RC3'
 
     //request
-    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+
+    //firebase
+    //implementation 'com.google.firebase:firebase-database:11.0.4'
+    //implementation 'com.google.firebase:firebase-auth:11.0.4'
 
     testCompile 'junit:junit:4.12'
 }
+//apply plugin: 'com.google.gms.google-services'
+
 repositories {
     mavenCentral()
+    google()
 }
