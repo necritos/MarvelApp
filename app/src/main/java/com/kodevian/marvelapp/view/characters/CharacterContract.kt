@@ -1,4 +1,4 @@
-package com.kodevian.marvelapp.view
+package com.kodevian.marvelapp.view.characters
 
 import com.kodevian.marvelapp.model.CharacterEntity
 

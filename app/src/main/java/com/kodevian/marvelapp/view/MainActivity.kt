@@ -2,18 +2,23 @@ package com.kodevian.marvelapp.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.kodevian.marvelapp.R
 import com.kodevian.marvelapp.base.BaseActivity
 import com.kodevian.marvelapp.model.CharacterEntity
+import com.kodevian.marvelapp.view.characters.CharacterAdapter
+import com.kodevian.marvelapp.view.characters.CharacterContract
+import com.kodevian.marvelapp.view.characters.CharacterDetailActivity
+import com.kodevian.marvelapp.view.characters.CharactersPresenter
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -40,12 +45,11 @@ class MainActivity : BaseActivity(), CharacterContract.View {
         //val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val layoutManager = GridLayoutManager(this, 3)
         rvCharacters.layoutManager = layoutManager
-        characterAdapter = CharacterAdapter(mutableListOf()){
-            character ->
-                val i:Intent = Intent(this, CharacterDetailActivity::class.java)
-                var strObject: String = Gson().toJson(character)
-                i.putExtra("character", strObject)
-                startActivity(i)
+        characterAdapter = CharacterAdapter(mutableListOf()) { character ->
+            val i: Intent = Intent(this, CharacterDetailActivity::class.java)
+            var strObject: String = Gson().toJson(character)
+            i.putExtra("character", strObject)
+            startActivity(i)
         }
         rvCharacters.adapter = characterAdapter
         characterPresenter = CharactersPresenter(this)
@@ -125,6 +129,18 @@ class MainActivity : BaseActivity(), CharacterContract.View {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.action_close -> {
+                FirebaseAuth.getInstance().signOut()
+                val i = Intent(this, LoadActivity::class.java)
+                startActivity(i)
+                finish()
+            }
+        }
+
+        return  true
+    }
 
 
     override fun renderCharacters(characters: List<CharacterEntity>, offset:Int, text:String) {
@@ -152,7 +168,7 @@ class MainActivity : BaseActivity(), CharacterContract.View {
     }
 
     override fun setError(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG)
+        showMessage(null, msg)
     }
 
     override fun setPresenter(presenter: CharacterContract.Presenter) {

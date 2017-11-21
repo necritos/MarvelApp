@@ -1,4 +1,4 @@
-package com.kodevian.marvelapp.view
+package com.kodevian.marvelapp.view.characters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

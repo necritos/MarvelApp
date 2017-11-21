@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MarvelApp</string>
+    <string name="login">Login</string>
+    <string name="btn_create_account">Create Account</string>
 </resources>
