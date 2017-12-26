@@ -12,8 +12,8 @@ android {
         versionName "1.0"
         setProperty("archivesBaseName", "MarvelApp-v$versionName")
         buildConfigField 'String', 'BASE', '"http://gateway.marvel.com/v1/public/"'
-        buildConfigField 'String', 'PUBLIC_KEY', '"f4df5bff8d2920b48101e6aeea93399f"'
-        buildConfigField 'String', 'PRIVATE_KEY', '"8fdddf8b42d5a2ab3c858b12bde9e2f768decc86"'
+        buildConfigField 'String', 'PUBLIC_KEY', '"YOUR_PUBLIC_KEY"'
+        buildConfigField 'String', 'PRIVATE_KEY', '"YOUR_PRIVATE_KEY"'
     }
     lintOptions {
         disable 'InvalidPackage'
